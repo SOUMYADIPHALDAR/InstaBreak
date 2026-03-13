@@ -3,10 +3,18 @@
     "name": "InstaBreak",
     "version": "1.0.0",
     "description": "This extension helps to stop endless scrolling on insta.",
+    "permissions": ["tabs"],
     "icons": {
-        "16": "assets/pause.jpg"
+        "16": "assets/pause.png"
+    },
+    "content": {
+        "matches": ["https://www.instagram.com/*"],
+        "js": "content.js"
     },
     "action": {
+        "default_icon": {
+            "16": "assets/pause.png"
+        },
         "default_popup": "popup.html",
         "default_title": "InstaBreak"
     }
