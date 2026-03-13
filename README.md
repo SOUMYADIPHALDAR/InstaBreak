@@ -1,0 +1,1 @@
+This is a extension to stop scrolling on instagram.
