@@ -10,6 +10,7 @@ chrome.storage.local.get(["scrollBlocked"], (result) => {
 function blockScroll(e){
     if(scrollBlocked){
         e.preventDefault();
+        showMessage();
     }
 }
 
@@ -31,4 +32,19 @@ function disableScrolling(){
     window.addEventListener("wheel", blockScroll, {passive: false});
     window.addEventListener("touchmove", blockScroll, {passive: false});
     window.addEventListener("keydown", blockScroll, {passive: false});
+};
+
+function showMessage(){
+    if(document.getElementById("scroll-msg")) return;
+
+    const msg = document.createElement("div");
+
+    msg.id = "scroll-msg";
+    msg.innerText = "Scrolling is stop by the InstaBreak";
+
+    document.body.appendChild(msg);
+
+    setTimeout(() => {
+        msg.remove();
+    }, 2000);
 }

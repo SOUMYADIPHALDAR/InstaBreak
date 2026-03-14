@@ -10,7 +10,8 @@
     "content_scripts": [
         {
             "matches": ["https://www.instagram.com/*"],
-            "js": ["contentScript.js"]
+            "js": ["contentScript.js"],
+            "css": ["popup.css"]
         }
     ],
     "action": {

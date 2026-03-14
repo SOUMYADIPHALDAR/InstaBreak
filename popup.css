@@ -71,3 +71,17 @@ background-color: #e1306c;
 input:checked + .slider:before {
 transform: translateX(18px);
 }
+
+#instaBreakMessage {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: black;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    z-index: 999999;
+    opacity: 0.95;
+}
