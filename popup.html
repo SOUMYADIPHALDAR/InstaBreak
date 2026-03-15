@@ -1,28 +1,47 @@
-<!DOCTYPE html>
+<!doctype html>
 
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Stop Scrolling</title>
-  <link rel="stylesheet" href="popup.css">
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Stop Scrolling</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
 
-<body>
-  <div class="container">
-    <div id="title">
-      <p>Stop Scrolling</p>
+  <body>
+    <div class="container">
+      <div id="title">
+        <p>Stop Scrolling</p>
 
+        <label class="switch">
+          <input type="checkbox" id="toggle" />
+          <span class="slider"></span>
+        </label>
+      </div>
 
-  <label class="switch">
-    <input type="checkbox" id="toggle">
-    <span class="slider"></span>
-  </label>
+      <!-- Timer Input Section -->
+      <div class="timer-section">
+        <p>Daily Time Limit</p>
 
-</div>
+        <div class="timer-input">
+          <input
+            type="number"
+            id="timeLimit"
+            placeholder="Enter minutes"
+            min="1"
+          />
+          <span>minutes</span>
+        </div>
 
-  </div>
+        <button id="saveTime">Save</button>
+      </div>
 
-  <script src="popup.js"></script>
+      <!-- Time Remaining Section -->
+      <div class="remaining-time">
+        <p>Time Remaining Today</p>
+        <h2 id="timeLeft">--:--</h2>
+      </div>
+    </div>
 
-</body>
+    <script src="popup.js"></script>
+  </body>
 </html>
