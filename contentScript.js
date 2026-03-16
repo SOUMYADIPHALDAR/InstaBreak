@@ -1,12 +1,26 @@
 let scrollBlocked = false;
-let tabOpenTime = 0;
 let timeLimit = 0;
+let lockEndTime = 0;
 let timerId = null;
 
-chrome.storage.local.get(["scrollBlocked", "timeLimit"], (result) => {
+chrome.storage.local.get(["scrollBlocked", "timeLimit", "lockEndTime"], (result) => {
+  if(result.lockEndTime){
+    lockEndTime = result.lockEndTime;
+  }
   if (result.scrollBlocked) {
-    scrollBlocked = true;
-    disableScrolling();
+    if(Date.now() >= lockEndTime){
+      scrollBlocked = false;
+
+      chrome.storage.local.set({
+        scrollBlocked: false,
+        lockEndTime: 0
+      });
+      enableScrolling();
+    }else{
+      scrollBlocked = true;
+      disableScrolling();
+      setTimer();
+    }
   }
   if(result.timeLimit){
     timeLimit = Number(result.timeLimit) * 60 * 1000;
@@ -23,35 +37,38 @@ function blockScroll(e) {
 chrome.runtime.onMessage.addListener((message) => {
   if (message.type === "STOP_SCROLL") {
     scrollBlocked = !!message.enabled;
+
     if (scrollBlocked) {
+      lockEndTime = Date.now() + timeLimit;
+      setTimer();
       disableScrolling();
+
+      chrome.storage.local.set({
+        scrollBlocked: true,
+        lockEndTime: lockEndTime
+      });
+
     } else {
       enableScrolling();
     }
     return;
   }
-
-  if (message.type === "NEW") {
-    tabOpenTime = Date.now();
-    
-    setTimer();
-  }
 });
 
 function setTimer(){
+  if(!scrollBlocked) return;
   if(timerId) clearInterval(timerId);
 
     timerId = setInterval(() => {
-        if(!tabOpenTime || !timeLimit) return;
-
-        const timeSpent = Date.now() - tabOpenTime;
+        if(!timeLimit) return;
 
         // When the limit ends, automatically turn OFF blocking (toggle OFF)
-        if(timeSpent >= timeLimit && scrollBlocked){
+        if(Date.now() >= lockEndTime && scrollBlocked){
             scrollBlocked = false;
 
             chrome.storage.local.set({
-                scrollBlocked: false
+              scrollBlocked: false,
+              lockEndTime: 0,
             });
             enableScrolling();
 
